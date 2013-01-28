@@ -1,0 +1,30 @@
+CC=gcc
+AR      := libtool
+#CFLAGS  +=  -std=c99 
+CFLAGS+=-Ihidapi/hidapi -Wall -g -c
+LDFLAGS +=  -framework IOKit -framework CoreFoundation 
+PLATFORM:= darwin
+
+SOURCES  += ./hidapi/mac/hid.c
+
+BUILDDIR := ./build/hidapi
+OUTDIR   := ./lib
+
+OBJECTS=$(SOURCES:.c=.o)
+
+LIBOBJ=libhidapi.a
+
+all: $(SOURCES) $(LIBOBJ)
+
+
+$(LIBOBJ): $(OBJECTS)
+	@@-mkdir -p $(OUTDIR)
+	$(AR) -v $(LDFLAGS) $(BUILDDIR)/*.o -o $(OUTDIR)/$(@F)
+
+.c.o:
+	@-mkdir -p $(BUILDDIR)
+	$(CC) -c $(CFLAGS) $< -o $(BUILDDIR)/$(@F)
+
+clean:
+	rm -f $(BUILDDIR)/*.o
+

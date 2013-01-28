@@ -1,0 +1,19 @@
+<package>
+  <description brief="X52">
+
+     X52
+
+  </description>
+  <author>Jose Luis Arenas</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/X52</url>
+  <depend package="roscpp"/>
+  <depend package="std_msgs" />
+  <depend package="sensor_msgs"/>
+  <depend package="diagnostic_updater"/>
+  <depend package="diagnostic_msgs"/>
+
+</package>
+
+

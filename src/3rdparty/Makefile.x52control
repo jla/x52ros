@@ -1,0 +1,36 @@
+CC=gcc
+AR      := libtool
+CFLAGS  +=  -std=c99 
+LDFLAGS +=  -framework IOKit -framework CoreFoundation 
+PLATFORM:= darwin
+
+SOURCES  += ./x52control/libx52/init/init_ctor.c
+SOURCES  += ./x52control/libx52/usb/usb.c
+SOURCES  += ./x52control/libx52/usb/error.c
+SOURCES  += ./x52control/libx52/usb/descriptors.c
+SOURCES  += ./x52control/libx52/usb/$(PLATFORM).c
+SOURCES  += ./x52control/libx52/x52device.c
+SOURCES  += ./x52control/libx52/x52interface.c
+SOURCES  += ./x52control/libx52/x52session.c
+
+BUILDDIR := ./build/x52control
+OUTDIR   := ./lib
+
+OBJECTS=$(SOURCES:.c=.o)
+
+LIBOBJ=libx52control.a
+
+all: $(SOURCES) $(LIBOBJ)
+
+
+$(LIBOBJ): $(OBJECTS)
+	@@-mkdir -p $(OUTDIR)
+	$(AR) -v $(LDFLAGS) $(BUILDDIR)/*.o -o $(OUTDIR)/$(@F)
+
+.c.o:
+	@-mkdir -p $(BUILDDIR)
+	$(CC) -c $(CFLAGS) $< -o $(BUILDDIR)/$(@F)
+
+clean:
+	rm -f $(BUILDDIR)/*.o
+
